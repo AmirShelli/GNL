@@ -2,7 +2,6 @@
 
 
    * char *ft_saverstr(char *saver, const char *buffer)
-check if saver != NULL
 NULL means first iter for saver
 first iter malloc for saver then copy,
 else concatinates until \n in a aux str, 

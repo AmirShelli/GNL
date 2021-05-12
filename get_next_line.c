@@ -17,6 +17,7 @@ int	get_next_line(int fd, char **line)
 	*line = (char *)malloc(ft_strlen(saver) + 1);
 	*line = saver;
 	saver = ft_savestr(saver, ft_strchr(buffer, '\n') + 1); // + 1 if buffer[0] == \n 
+	// better always save and intialize with \0 (don't forget malloc for 1 byte!)
 	if (ft_strchr(buffer, '\n'))
 		return (1);
 	return(0);
