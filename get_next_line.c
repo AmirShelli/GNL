@@ -7,18 +7,17 @@ int	get_next_line(int fd, char **line)
 	int			bytes;
 
 	line = (char **)malloc(sizeof(char *));
-	while (bytes)
+	while (bytes && !ft_strchr(buffer, '\n'))
 	{
 		bytes = read(fd, buffer, BUFFER_SIZE);
 		if (bytes == -1)
-			return (bytes);
+			return (-1);
 		saver = ft_savestr(saver, buffer);
-		if (ft_strchr(buffer, "\n"))
-		{
-			*line = (char *)malloc(ft_strlen(saver) + 1);
-			*line = saver;
-			saver = ft_savestr(saver, buffer + 1); // + 1 if buffer[0] == \n 
-			return (1);
-		}								
 	}
+	*line = (char *)malloc(ft_strlen(saver) + 1);
+	*line = saver;
+	saver = ft_savestr(saver, ft_strchr(buffer, '\n') + 1); // + 1 if buffer[0] == \n 
+	if (ft_strchr(buffer, '\n'))
+		return (1);
+	return(0);
 }
