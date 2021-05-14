@@ -1,5 +1,15 @@
 #include "get_next_line.h"
 
+size_t	ft_strlen(const char *str)
+{
+	size_t	length;
+
+	length = 0;
+	while (str[length])
+		length++;
+	return (length);
+}
+
 char	*ft_strchr(const char *src, int c)
 {
 	char			*aux;
@@ -16,8 +26,8 @@ char	*ft_strchr(const char *src, int c)
 
 char	*ft_strncat(char *dest, char *src, unsigned int nb)
 {
-	char	*start_dest;
-	int		i;
+	char			*start_dest;
+	unsigned int	i;
 
 	i = 0;
 	start_dest = dest;
@@ -32,7 +42,6 @@ char	*ft_strncat(char *dest, char *src, unsigned int nb)
 	return (start_dest);
 }
 
-
 char	*ft_strdup(char *src)
 {
 	char	*aux_src;
@@ -46,16 +55,6 @@ char	*ft_strdup(char *src)
 		*aux_src++ = *src++;
 	*aux_src = '\0';
 	return (copy);
-}
-
-size_t	ft_strlen(const char *str)
-{
-	size_t	length;
-
-	length = 0;
-	while (str[length])
-		length++;
-	return (length);
 }
 
 char	*ft_strcpy(char *dest, char *src)
