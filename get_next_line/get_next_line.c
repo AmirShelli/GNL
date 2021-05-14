@@ -1,6 +1,6 @@
 #include "get_next_line.h"
 #ifndef BUFFER_SIZE
-# define BUFFER_SIZE 10
+# define BUFFER_SIZE 100
 #endif
 
 int	get_next_line(int fd, char **line)
@@ -17,6 +17,7 @@ int	get_next_line(int fd, char **line)
 		saver = (char *)malloc(1);
 		*saver = '\0';
 	}
+	printf("saver at the begining: %s\n", saver);
 	// *line = 0;
 	while (bytes)
 	{
@@ -28,10 +29,11 @@ int	get_next_line(int fd, char **line)
 			tmp = ft_substr(saver, finalsize, ft_strlen(saver) - finalsize);
 			free(saver);
 			saver = tmp;
+			printf("if \\n at end: %s\n", saver);
 			return (1);
 		}
 		bytes = read(fd, buffer, BUFFER_SIZE);
-		saver = ft_strjoin(saver, buffer);
+		saver = ft_strnjoin(saver, buffer, bytes);
 	}
 	if (*line)
 		free(*line);

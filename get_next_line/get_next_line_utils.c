@@ -45,7 +45,7 @@ char	*ft_substr(char const *s, unsigned int start, size_t size)
 	return (aux_str);
 }
 
-char	*ft_strjoin(char const *s1, char const *s2)
+char	*ft_strnjoin(char const *s1, char const *s2, int n)
 {
 	char	*res;
 	char	*res_aux;
@@ -58,7 +58,7 @@ char	*ft_strjoin(char const *s1, char const *s2)
 		res_aux = res;
 		while (*s1)
 			*res++ = *s1++;
-		while (*s2)
+		while (*s2 && n--)
 			*res++ = *s2++;
 		*res = '\0';
 		return (res_aux);

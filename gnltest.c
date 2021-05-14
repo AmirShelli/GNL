@@ -16,7 +16,6 @@ int	main(void)
 		// if (line)
 		// 	free(line);
 	}
-	write(1,"here\n",5);
 	printf("this is line: |%s|\n\n", line);
 		fflush(stdout);
 		// if (line)
