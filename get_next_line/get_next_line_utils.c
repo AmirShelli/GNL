@@ -24,46 +24,44 @@ char	*ft_strchr(const char *src, int c)
 	return (NULL);
 }
 
-char	*ft_strncat(char *dest, char *src, unsigned int nb)
+char	*ft_substr(char const *s, unsigned int start, size_t size)
 {
-	char			*start_dest;
-	unsigned int	i;
+	char	*str;
+	char	*aux_str;
 
-	i = 0;
-	start_dest = dest;
-	while (*dest)
-		dest++;
-	while ((src[i]) && (i < nb))
-	{
-		dest[i] = src[i];
-		i++;
-	}
-	dest[i] = '\0';
-	return (start_dest);
-}
-
-char	*ft_strdup(char *src)
-{
-	char	*aux_src;
-	char	*copy;
-
-	aux_src = malloc(ft_strlen(src) + 1);
-	if (!aux_src || !src)
+	if (!s)
 		return (NULL);
-	copy = aux_src;
-	while (*src)
-		*aux_src++ = *src++;
-	*aux_src = '\0';
-	return (copy);
+	if (ft_strlen(s + start) < size)
+		size = ft_strlen(s + start);
+	str = (char *)malloc(size + 1);
+	aux_str = str;
+	if (str)
+	{
+		if (start < ft_strlen(s))
+			while (*(s + start) && size--)
+				*str++ = *(s++ + start);
+	}
+	*str = 0;
+	return (aux_str);
 }
 
-char	*ft_strcpy(char *dest, char *src)
+char	*ft_strjoin(char const *s1, char const *s2)
 {
-	char	*start_dest;
+	char	*res;
+	char	*res_aux;
 
-	start_dest = dest;
-	while (*src)
-		*dest++ = *src++;
-	*dest = '\0';
-	return (start_dest);
+	if (s1 && s2)
+	{
+		res = (char *)malloc(ft_strlen(s1) + ft_strlen(s2) + 1);
+		if (!res)
+			return (NULL);
+		res_aux = res;
+		while (*s1)
+			*res++ = *s1++;
+		while (*s2)
+			*res++ = *s2++;
+		*res = '\0';
+		return (res_aux);
+	}
+	return (NULL);
 }

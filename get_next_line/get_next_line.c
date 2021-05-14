@@ -1,49 +1,40 @@
 #include "get_next_line.h"
 #ifndef BUFFER_SIZE
-# define BUFFER_SIZE 34
+# define BUFFER_SIZE 10
 #endif
-
-void	ft_savestr(char **into, char *from)
-{
-	unsigned int	finalsize;
-	char			*tmp_into;
-
-	finalsize = ft_strlen(from);
-	if (!*into)
-	{
-		*into = (char *)malloc(1);
-		**into = '\0';
-	}
-	if (ft_strchr(from, '\n'))
-		finalsize -= ft_strlen(ft_strchr(from, '\n'));
-	tmp_into = (char *)malloc(ft_strlen(*into) + finalsize + 1);
-	tmp_into = ft_strcpy(tmp_into, *into);
-	free(*into);
-	*into = ft_strncat(tmp_into, from, finalsize);
-}
 
 int	get_next_line(int fd, char **line)
 {
 	static char	*saver;
 	char		buffer[BUFFER_SIZE + 1];
 	int			bytes;
+	int			finalsize;
+	char		*tmp;
 
 	bytes = 1;
-	while (bytes && !ft_strchr(buffer, '\n'))
+	if (!saver)
 	{
+		saver = (char *)malloc(1);
+		*saver = '\0';
+	}
+	// *line = 0;
+	while (bytes)
+	{
+		finalsize = ft_strlen(saver);
+		if (ft_strchr(saver, '\n'))
+		{
+			finalsize -= ft_strlen(ft_strchr(saver, '\n') + 1);
+			*line = ft_substr(saver, 0, finalsize - 1);
+			tmp = ft_substr(saver, finalsize, ft_strlen(saver) - finalsize);
+			free(saver);
+			saver = tmp;
+			return (1);
+		}
 		bytes = read(fd, buffer, BUFFER_SIZE);
-		if (bytes == -1)
-			return (-1);
-		buffer[bytes] = '\0';
-		ft_savestr(&saver, buffer);
-		printf("saver: %s\n", saver);
+		saver = ft_strjoin(saver, buffer);
 	}
-	*line = ft_strdup(saver);
-	free(saver);
-	if (ft_strchr(buffer, '\n'))
-	{
-		ft_savestr(&saver, ft_strchr(buffer, '\n') + 1);
-		return (1);
-	}
+	if (*line)
+		free(*line);
+	*line = saver;
 	return (0);
 }

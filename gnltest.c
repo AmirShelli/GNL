@@ -11,7 +11,6 @@ int	main(void)
 	 int fd = open("/Users/bharghaz/Desktop/level_1/GNL/testfile.txt", O_RDONLY);
 	while (get_next_line(fd, &line) > 0)
 	{
-		write(1,"here\n",5);
 		printf("this is line: |%s|\n\n", line);
 		fflush(stdout);
 		// if (line)

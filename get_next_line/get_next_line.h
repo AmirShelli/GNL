@@ -8,8 +8,8 @@
 
 size_t	ft_strlen(const char *str);
 char	*ft_strchr(const char *src, int c);
-char	*ft_strncat(char *dest, char *src, unsigned int nb);
-char	*ft_strdup(char *src);
-char	*ft_strcpy(char *dest, char *src);
+char	*ft_substr(char const *s, unsigned int start, size_t size);
+char	*ft_substr(char const *s, unsigned int start, size_t size);
+char	*ft_strjoin(char const *s1, char const *s2);
 
 #	endif
