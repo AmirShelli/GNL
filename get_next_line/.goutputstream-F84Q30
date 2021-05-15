@@ -1,6 +1,6 @@
 #include "get_next_line.h"
 #ifndef BUFFER_SIZE
-# define BUFFER_SIZE 1
+# define BUFFER_SIZE 100
 #endif
 
 void	ft_checkmalloc(char **saver, char **line)
@@ -38,5 +38,6 @@ int	get_next_line(int fd, char **line)
 		saver = ft_strnjoin(saver, buffer, bytes); // unprotected
 	}
 	*line = saver;
+	// find a way to free the saver here
 	return (0);
 }
