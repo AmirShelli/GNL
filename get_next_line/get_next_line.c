@@ -3,40 +3,40 @@
 # define BUFFER_SIZE 100
 #endif
 
+void	ft_checkmalloc(char **saver, char **line)
+{
+	if (!*saver)
+	{
+		*saver = (char *)malloc(1);
+		**saver = '\0';
+	}
+	if (*line)
+		free(*line);	
+}
+
 int	get_next_line(int fd, char **line)
 {
 	static char	*saver;
-	char		buffer[BUFFER_SIZE + 1];
-	int			bytes;
-	int			finalsize;
 	char		*tmp;
-
+	char		buffer[BUFFER_SIZE + 1];
+	int		bytes;
+	
 	bytes = 1;
-	if (!saver)
-	{
-		saver = (char *)malloc(1);
-		*saver = '\0';
-	}
-	printf("saver at the begining: %s\n", saver);
-	// *line = 0;
+	ft_checkmalloc(&saver, line); // unprotected, add more checkers for -1
 	while (bytes)
 	{
-		finalsize = ft_strlen(saver);
 		if (ft_strchr(saver, '\n'))
 		{
-			finalsize -= ft_strlen(ft_strchr(saver, '\n') + 1);
-			*line = ft_substr(saver, 0, finalsize - 1);
-			tmp = ft_substr(saver, finalsize, ft_strlen(saver) - finalsize);
+			*line = ft_substr(saver, 0, ft_strlen(saver) - ft_strlen(ft_strchr(saver, '\n')); // unprotected
+			tmp = ft_substr(saver, ft_strlen(saver) - ft_strlen(ft_strchr(saver, '\n'), \
+				ft_strlen(ft_strchr(saver, '\n') + 1); // unprotected
 			free(saver);
 			saver = tmp;
-			printf("if \\n at end: %s\n", saver);
 			return (1);
 		}
 		bytes = read(fd, buffer, BUFFER_SIZE);
-		saver = ft_strnjoin(saver, buffer, bytes);
+		saver = ft_strnjoin(saver, buffer, bytes); // unprotected
 	}
-	if (*line)
-		free(*line);
 	*line = saver;
 	return (0);
 }
