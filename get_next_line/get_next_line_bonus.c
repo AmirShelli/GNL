@@ -3,16 +3,17 @@
 # define BUFFER_SIZE 100
 #endif
 
-t_list	*ft_lstnew(int fd, char *saved)
+t_list	*ft_lstnew(int fd, char **saved)
 {
 	struct s_list	*lst;
 
 	lst = (t_list *)malloc(sizeof(t_list));
-	if (lst || saved)
-	{	printf("inside lstnew: |%s|\n\n", saved);
-		return (NULL);}
+	if (!lst)
+		return (NULL);
 	lst->fd = fd;
-	lst->saved = saved;
+	lst->saved = ft_substr(*saved, 0, ft_strlen(*saved));
+	free(*saved);
+	*saved = lst->saved;
 	lst->next = NULL;
 	return (lst);
 }
@@ -30,8 +31,8 @@ char	*ft_findfd(int fd, t_list **saved_lst)
 		tmp = tmp->next;
 	}
 	saved = (char *)malloc(1);
-	*saved = 0;
-	tmp = ft_lstnew(fd, saved);
+	tmp = ft_lstnew(fd, &saved);
+	*saved = 0; 
 	return (tmp->saved);
 }
 
@@ -67,7 +68,7 @@ int	get_next_line(int fd, char **line)
 			saved = ft_strmcat(&saved, buffer, bytes);
 			if (!saved_lst)
 			{printf("saved and bytes: |%s\t%d|\n\n", saved,bytes);
-				saved_lst = ft_lstnew(fd, saved);}
+				saved_lst = ft_lstnew(fd, &saved);}
 		}
 	}
 	*line = ft_substr(saved, 0, ft_strlen(saved));
