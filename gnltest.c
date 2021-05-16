@@ -8,7 +8,9 @@ int	get_next_line(int fd, char **line);
 int	main(void)
 {
 	char	*line;
-	 int fd = open("./testfile.txt", O_RDONLY);
+	int		fd;
+
+	fd = open("./testfile.txt", O_RDONLY);
 	while (get_next_line(fd, &line) > 0)
 	{
 		printf("this is line: |%s|\n\n", line);
@@ -17,8 +19,6 @@ int	main(void)
 			free(line);
 	}
 	printf("this is line: |%s|\n\n", line);
-		fflush(stdout);
-		if (line)
-		free(line);
+	fflush(stdout);
 	close(fd);
 }
