@@ -62,8 +62,8 @@ char	*ft_strmcat(char **ptr_dest, char const *src, int n)
 		*ptr_dest = (char *)malloc(1);
 		**ptr_dest = '\0';
 	}
-	dest = *ptr_dest;
 	i = 0;
+	dest = *ptr_dest;
 	if (dest && src && n >= 0)
 	{
 		res = (char *)malloc(ft_strlen(dest) + n + 1);
@@ -77,7 +77,6 @@ char	*ft_strmcat(char **ptr_dest, char const *src, int n)
 		res[i] = '\0';
 		return (res);
 	}
-	free(*ptr_dest);
 	return (NULL);
 }
 
