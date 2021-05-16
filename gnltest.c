@@ -13,12 +13,12 @@ int	main(void)
 	{
 		printf("this is line: |%s|\n\n", line);
 		fflush(stdout);
-		// if (line)
-		// 	free(line);
+		if (line)
+			free(line);
 	}
 	printf("this is line: |%s|\n\n", line);
 		fflush(stdout);
-		// if (line)
-	// 	free(line);
+		if (line)
+		free(line);
 	close(fd);
 }
