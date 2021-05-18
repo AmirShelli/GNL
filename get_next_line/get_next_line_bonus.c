@@ -1,78 +1,74 @@
 #include "get_next_line_bonus.h"
 #ifndef BUFFER_SIZE
-# define BUFFER_SIZE 100
+# define BUFFER_SIZE 10
 #endif
 
-t_list	*ft_lstnew(int fd, char **saved)
+t_list	*ft_lstnew(int fd)
 {
 	struct s_list	*lst;
+	char			*saved;
 
 	lst = (t_list *)malloc(sizeof(t_list));
-	if (!lst)
+	saved = (char *)malloc(1);
+	if (!lst || !saved)
 		return (NULL);
+	*saved = 0;
 	lst->fd = fd;
-	lst->saved = ft_substr(*saved, 0, ft_strlen(*saved));
-	free(*saved);
-	*saved = lst->saved;
+	lst->saved = saved;
 	lst->next = NULL;
 	return (lst);
 }
 
-char	*ft_findfd(int fd, t_list **saved_lst)
+t_list	*ft_findfd(int fd, t_list **saved_lst)
 {
-	struct s_list	*tmp;
-	char			*saved;
+	t_list	*tmp;
 
 	tmp = *saved_lst;
-	while (saved_lst)
-	{	
+	while (tmp)
+	{
 		if (tmp->fd == fd)
-			return (tmp->saved);
+			return (tmp);
 		tmp = tmp->next;
 	}
-	saved = (char *)malloc(1);
-	tmp = ft_lstnew(fd, &saved);
-	*saved = 0; 
-	return (tmp->saved);
+	tmp = ft_lstnew(fd);
+	return (tmp);
 }
 
-void	ft_lstdelone(t_list *lst, void (*del)(void*))
+void	ft_lstclear(t_list **lst)
 {
-	if (lst)
+	t_list	*current;
+
+	while (*lst && lst)
 	{
-		(*del)(lst->saved);
-		lst->next = NULL;
-		free(lst);
-		lst = NULL;
+		current = (*lst)->next;
+		free((*lst)->saved);
+		(*lst)->saved = NULL;
+		free(*lst);
+		(*lst) = current;
 	}
 }
 
 int	get_next_line(int fd, char **line)
 {
 	static t_list	*saved_lst;
-	char			*saved;
 	char			buffer[BUFFER_SIZE + 1];
 	int				bytes;
 
 	bytes = 1;
 	if (saved_lst)
-		{saved = ft_findfd(fd, &saved_lst);
-		}
+		saved_lst = ft_findfd(fd, &saved_lst);
 	while (bytes > 0)
 	{
-		if (ft_strchr(saved, '\n'))
-			return (ft_getline(&saved, line));
+		if (!saved_lst)
+			saved_lst = ft_lstnew(fd);
+		if (ft_strchr(saved_lst->saved, '\n'))
+			return (ft_getline(&saved_lst->saved, line));
 		bytes = read(fd, buffer, BUFFER_SIZE);
 		if (bytes >= 0)
-		{
-			saved = ft_strmcat(&saved, buffer, bytes);
-			if (!saved_lst)
-			{printf("saved and bytes: |%s\t%d|\n\n", saved,bytes);
-				saved_lst = ft_lstnew(fd, &saved);}
-		}
+			saved_lst->saved = ft_strmcat(&saved_lst->saved, buffer, bytes);
 	}
-	*line = ft_substr(saved, 0, ft_strlen(saved));
-	// ft_lstdelone(lst, del)(void*));
+	*line = ft_substr(saved_lst->saved, 0, ft_strlen(saved_lst->saved));
+	ft_lstclear(&saved_lst);
 	if (!*line)
 		return (-1);
 	return (0);

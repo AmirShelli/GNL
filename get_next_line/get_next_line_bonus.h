@@ -13,7 +13,7 @@ typedef struct s_list
 	struct s_list		*next;
 }					t_list;
 
-int		get_next_line(int fd, char **line);
+int		get_next_line_bonus(int fd, char **line);
 char	*ft_strchr(const char *src, int c);
 char	*ft_substr(char const *s, unsigned int start, size_t size);
 char	*ft_strmcat(char **s1, char const *s2, int n);
