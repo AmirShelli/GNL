@@ -56,7 +56,7 @@ char	*ft_strmcat(char **ptr_dest, char const *src, int n)
 	char	*res;
 	char	*dest;
 	int		i;
-
+	
 	if (!*ptr_dest && n >=0)
 	{
 		*ptr_dest = (char *)malloc(1);

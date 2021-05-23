@@ -23,27 +23,37 @@ t_list	*ft_findfd(int fd, t_list *saved_lst)
 {
 	t_list	*tmp;
 
-	tmp = saved_lst;
-	while (tmp->fd != fd)
+	if (saved_lst)
 	{	
-		if (!tmp->next)
-		{
-			tmp->next = ft_lstnew(fd);
-			return (tmp->next);
+		tmp = *saved_lst;
+		while (tmp->saved && tmp->fd != fd)
+		{	
+			if (!tmp->next)
+			{	
+				tmp->next = ft_lstnew(fd);
+				return (tmp->next);
+			}
+			tmp = tmp->next;
 		}
-		tmp = tmp->next;
 	}
+	else
+		tmp = ft_lstnew(fd);
 	return (tmp);
 }
 
 /*	for (; ; ) {
- *	
+ *		макс меня тролит;
  * 	}
  */
+
 void	ft_lstclear(t_list *head, t_list *lst)
 {
 	if (head == lst)
-		head = head->next;
+	{	
+		head->fd = 0;
+		free(head->saved);
+		head = NULL;
+	}
 	else
 	{
 		while (head->next != lst)
@@ -62,13 +72,7 @@ int	get_next_line(int fd, char **line)
 	int				bytes;
 
 	bytes = 1;
-	if (!saved_lst)
-	{
-		saved_lst = ft_lstnew(fd);
-		lst = saved_lst;
-	}
-	else
-		lst = ft_findfd(fd, saved_lst);
+	lst = ft_findfd(fd, saved_lst);
 	while (bytes > 0)
 	{
 		if (ft_strchr(lst->saved, '\n'))
