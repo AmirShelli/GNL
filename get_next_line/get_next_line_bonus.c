@@ -24,7 +24,8 @@ t_list	*ft_findfd(int fd, t_list *saved_lst)
 	t_list	*tmp;
 
 	tmp = saved_lst;
-	while (tmp->saved && tmp->fd != fd)
+	printf("%s	%p", tmp->saved, &(tmp->saved));
+	while (tmp->fd != fd)
 	{	
 		if (!tmp->next)
 		{	
@@ -44,11 +45,7 @@ t_list	*ft_findfd(int fd, t_list *saved_lst)
 void	ft_lstclear(t_list *head, t_list *lst)
 {
 	if (head == lst)
-	{	
-		head->fd = 0;
-		free(head->saved);
-		head->saved = NULL;
-		head = NULL;
+	{	head = head->next;
 	}
 	else
 	{
@@ -69,8 +66,8 @@ int	get_next_line(int fd, char **line)
 
 	bytes = 1;
 	if (!saved_lst)
-	{	
-		lst = ft_lstnew(fd);
+	{
+		saved_lst = ft_lstnew(fd);
 		lst = saved_lst;
 	}
 	else
