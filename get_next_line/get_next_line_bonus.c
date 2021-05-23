@@ -55,6 +55,7 @@ void	ft_lstclear(t_list **head, t_list *lst)
 	{	
 		*head = (*head)->next;
 		free(*head);
+		*head = NULL;
 	}
 	else
 	{
@@ -86,7 +87,11 @@ int	get_next_line(int fd, char **line)
 	}
 	*line = ft_substr(lst->saved, 0, ft_strlen(lst->saved));
 	ft_lstclear(&saved_lst, lst);
-	if (!*line)
+	if (bytes < 0)
+	{
+		free(*line);
+		*line = NULL;
 		return (-1);
+	}
 	return (0);
 }

@@ -1,6 +1,5 @@
-#ifndef GET_NEXT_LINE_H
-# define GET_NEXT_LINE_H
-
+#ifndef GET_NEXT_LINE_BONUS_H
+# define GET_NEXT_LINE_BONUS_H
 # include <stdlib.h>
 # include <stdio.h>
 # include <fcntl.h>
@@ -21,4 +20,4 @@ char	*ft_strmcat(char **s1, char const *s2, int n);
 size_t	ft_strlen(const char *str);
 int		ft_getline(char **saved, char **line);
 
-#	endif
+#endif
