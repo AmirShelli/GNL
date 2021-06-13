@@ -92,6 +92,7 @@ int	ft_getline(char **saved, char **line)
 	if (!*line)
 	{	
 		free(tmp);
+		tmp = NULL;
 		return (-1);
 	}
 	*saved = tmp;

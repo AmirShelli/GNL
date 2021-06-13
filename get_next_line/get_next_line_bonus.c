@@ -1,6 +1,6 @@
 #include "get_next_line_bonus.h"
 #ifndef BUFFER_SIZE
-# define BUFFER_SIZE 100
+# define BUFFER_SIZE 42
 #endif
 
 t_list	*ft_lstnew(int fd)
@@ -44,28 +44,33 @@ t_list	*ft_findfd(int fd, t_list **saved_lst)
 	return (tmp);
 }
 
-/*	for (; ; ) {
+/*	for ( ; ; ) {
  *		макс меня тролит;
  * 	}
  */
 
-void	ft_lstclear(t_list **head, t_list *lst)
+void	ft_lstclear(t_list **head, t_list **lst)
 {
-	if (*head == lst)
+	t_list	*start;
+
+	start = *head;
+	if (*head == *lst)
 	{	
-		*head = (*head)->next;
+		free((*head)->saved);
+		(*head)->saved = NULL;
 		free(*head);
 		*head = NULL;
 	}
 	else
 	{
-		while ((*head)->next != lst)
+		while ((*head)->next != *lst)
 			*head = (*head)->next;
+		free((*head)->next->saved);
+		(*head)->next->saved = NULL;
+		free((*head)->next);
 		(*head)->next = (*head)->next->next;
+		*head = start;
 	}
-	free(lst->saved);
-	lst->saved = NULL;
-	free(lst);
 }
 
 int	get_next_line(int fd, char **line)
@@ -86,12 +91,12 @@ int	get_next_line(int fd, char **line)
 			lst->saved = ft_strmcat(&lst->saved, buffer, bytes);
 	}
 	*line = ft_substr(lst->saved, 0, ft_strlen(lst->saved));
-	ft_lstclear(&saved_lst, lst);
 	if (bytes < 0)
 	{
 		free(*line);
 		*line = NULL;
 		return (-1);
 	}
+	ft_lstclear(&saved_lst, &lst);
 	return (0);
 }
