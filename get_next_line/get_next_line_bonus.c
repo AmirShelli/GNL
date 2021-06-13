@@ -56,10 +56,11 @@ void	ft_lstclear(t_list **head, t_list **lst)
 	start = *head;
 	if (*head == *lst)
 	{	
-		free((*head)->saved);
-		(*head)->saved = NULL;
-		free(*head);
-		*head = NULL;
+		(*head) = (*head)->next;
+		free((start)->saved);
+		(start)->saved = NULL;
+		free(start);
+		start = NULL;
 	}
 	else
 	{
@@ -91,12 +92,12 @@ int	get_next_line(int fd, char **line)
 			lst->saved = ft_strmcat(&lst->saved, buffer, bytes);
 	}
 	*line = ft_substr(lst->saved, 0, ft_strlen(lst->saved));
+	ft_lstclear(&saved_lst, &lst);
 	if (bytes < 0)
 	{
 		free(*line);
 		*line = NULL;
 		return (-1);
 	}
-	ft_lstclear(&saved_lst, &lst);
 	return (0);
 }
