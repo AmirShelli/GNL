@@ -89,7 +89,7 @@ int	ft_getline(char **saved, char **line)
 	*line = ft_substr(*saved, 0, size - 1);
 	tmp = ft_substr(*saved, size, ft_strlen(ft_strchr(*saved, '\n')));
 	free(*saved);
-	if (!*line)
+	if (!*line || !tmp)
 	{	
 		free(tmp);
 		return (-1);
